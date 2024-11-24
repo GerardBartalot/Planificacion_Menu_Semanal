@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planificador de Menú Semanal</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .meal-table {
+            margin-top: 20px;
+        }
+        .meal-table td, .meal-table th {
+            padding: 10px;
+            text-align: center;
+            height: 70px;
+        }
+        .container {
+            width: 800px;
+            height: 600px;
+            margin: auto;
+            overflow: auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            background-color: white;
+        }
+        .button {
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    <div class="container p-4">
+        <h1 class="text-2xl font-bold text-center mb-4">🍽️ Planificador de Menú Semanal 🥗</h1>
+        <table class="meal-table table-fixed w-full">
+            <thead>
+                <tr>
+                    <th class="w-1/7 px-4 py-2">Días</th>
+                    <th class="w-1/7 px-4 py-2">Desayuno</th>
+                    <th class="w-1/7 px-4 py-2">Comida</th>
+                    <th class="w-1/7 px-4 py-2">Cena</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="font-bold">Lunes</td>
+                    <td contenteditable="true" class="border"> </td>
+                    <td contenteditable="true" class="border"> </td>
+                    <td contenteditable="true" class="border"> </td>
+                </tr>
+                <tr>
+                    <td class="font-bold">Martes</td>
+                    <td contenteditable="true" class="border"> </td>
+                    <td contenteditable="true" class="border"> </td>
+                    <td contenteditable="true" class="border"> </td>
+                </tr>
+                <tr>
+                    <td class="font-bold">Miércoles</td>
+                    <td contenteditable="true" class="border"> </td>
+                    <td contenteditable="true" class="border"> </td>
+                    <td contenteditable="true" class="border"> </td>
+                </tr>
+                <tr>
+                    <td class="font-bold">Jueves</td>
+                    <td contenteditable="true" class="border"> </td>
+                    <td contenteditable="true" class="border"> </td>
+                    <td contenteditable="true" class="border"> </td>
+                </tr>
+                <tr>
+                    <td class="font-bold">Viernes</td>
+                    <td contenteditable="true" class="border"> </td>
+                    <td contenteditable="true" class="border"> </td>
+                    <td contenteditable="true" class="border"> </td>
+                </tr>
+                <tr>
+                    <td class="font-bold">Sábado</td>
+                    <td contenteditable="true" class="border"> </td>
+                    <td contenteditable="true" class="border"> </td>
+                    <td contenteditable="true" class="border"> </td>
+                </tr>
+                <tr>
+                    <td class="font-bold">Domingo</td>
+                    <td contenteditable="true" class="border"> </td>
+                    <td contenteditable="true" class="border"> </td>
+                    <td contenteditable="true" class="border"> </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="flex justify-center mt-4">
+            <button id="generate" class="button bg-green-500 hover:bg-green-700 text-white font-bold">Sugerir Menú</button>
+            <button id="clear" class="button bg-red-500 hover:bg-red-700 text-white font-bold">Limpiar Menú</button>
+            <button id="print" class="button bg-blue-500 hover:bg-blue-700 text-white font-bold">Imprimir</button>
+        </div>
+        <div id="shopping-list" class="mt-4">
+            <h2 class="text-xl font-bold">🛒 Lista de la Compra</h2>
+            <div id="list">
+                <!-- Items de la lista de compra se agregarán aquí -->
+            </div>
+        </div>
+    </div>
+    <script>
+        const meals = [
+            "Avena con frutas 🍇",
+            "Ensalada de quinoa 🥗",
+            "Pechuga de pollo a la plancha 🍗",
+            "Tostadas con aguacate 🥑",
+            "Pasta integral con verduras 🍝",
+            "Batido de proteínas 🥤",
+            "Sopa de lentejas 🍲",
+            "Filete de pescado 🐟",
+            "Huevos revueltos 🍳",
+            "Arroz con pollo 🍛",
+            "Verduras al vapor 🥦"
+        ];
+
+        function generateRandomMeal(isDouble = false) {
+            const randomMeal1 = meals[Math.floor(Math.random() * meals.length)];
+            if (!isDouble) {
+                return randomMeal1;
+            }
+            let randomMeal2;
+            do {
+                randomMeal2 = meals[Math.floor(Math.random() * meals.length)];
+            } while (randomMeal2 === randomMeal1);
+            return `${randomMeal1} y ${randomMeal2}`;
+        }
+
+        document.getElementById("generate").addEventListener("click", () => {
+            const cells = document.querySelectorAll("tbody td[contenteditable='true']");
+            cells.forEach((cell, index) => {
+                if (index % 3 === 0) {
+                    cell.innerHTML = generateRandomMeal();
+                } else {
+                    cell.innerHTML = generateRandomMeal(true);
+                }
+            });
+        });
+
+        document.getElementById("clear").addEventListener("click", () => {
+            const cells = document.querySelectorAll("tbody td[contenteditable='true']");
+            cells.forEach(cell => {
+                cell.innerHTML = "";
+            });
+        });
+
+        document.getElementById("print").addEventListener("click", () => {
+            window.print();
+        });
+    </script>
+</body>
+</html>
